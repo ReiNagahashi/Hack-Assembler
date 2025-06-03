@@ -72,7 +72,7 @@ class Assembler():
     jump_table = {
         "null":"000",
         "JGT":"001",
-        "JEQ":"0101",
+        "JEQ":"010",
         "JGE":"011",
         "JLT":"100",
         "JNE":"101",
@@ -107,13 +107,13 @@ class Assembler():
     
     # この判定は擬似コマンドだけに対してtrueを返す→つまり(ラベル名)というやつだけ
     def isLCommand(self):
-        current_command = self.input_file[self.current_row]
+        current_command = self.advance()
 
         return len(current_command) > 1 and current_command[0] == "(" and current_command[-1] == ")"
 
 
     def commandType(self):
-        current_command = self.input_file[self.current_row]
+        current_command = self.advance()
 
         if self.isLCommand():
             self.current_command_type = "L_COMMAND"
@@ -191,7 +191,7 @@ class Assembler():
     def getBinaryFromCommandC(self):
         if self.current_command_type != "C_COMMAND": return ""
 
-        current_command = self.input_file[self.current_row]
+        current_command = self.advance()
 
         comp_binary = ""
         dest_binary = ""
